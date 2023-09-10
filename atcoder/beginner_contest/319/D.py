@@ -1,52 +1,17 @@
-is_debug = False
-
-
-def debug_message(num):
-    if is_debug:
-        if num:
-            print('x' * num, end='')
-        else:
-            print()
-
-
-def is_valid(nums, m, width) -> bool:
+def is_valid(nums, num_lines_at_most, width) -> bool:
     num_lines = 1
-    rest_in_line = width
-    is_first_num = True
-    for i, num in enumerate(nums):
+    rest_width = width
+    for num in nums:
         if num > width:
             return False
 
-        if is_first_num:
-            rest_in_line -= num
-            is_first_num = False
-            debug_message(num)
-        else:
-            if rest_in_line >= num + 1:
-                # enough
-                debug_message(num)
-                rest_in_line -= num + 1
+        if rest_width < num:
+            rest_width = width
+            num_lines += 1
 
-                if rest_in_line == 0 and (i + 1) < len(nums):
-                    num_lines += 1
-                    rest_in_line = width
-                    is_first_num = True
-                    debug_message(0)
-                else:
-                    is_first_num = False
-            else:
-                # not enough
-                num_lines += 1
-                rest_in_line = width
-                debug_message(0)
+        rest_width -= num + 1
 
-                rest_in_line -= num
-                debug_message(num)
-
-    if num_lines > m:
-        return False
-    else:
-        return True
+    return num_lines <= num_lines_at_most
 
 
 def binary_search(nums, m, lower_bound, upper_bound):
