@@ -4,10 +4,10 @@ import pytest
 
 
 def _two_loops_greedy(ratings):
-    nums_greater_than_right = [1] * len(ratings)
     nums_greater_than_left = [1] * len(ratings)
-    indices_from_left = list(range(1, len(ratings)))
-    indices_from_right = reversed(list(range(len(ratings) - 1)))
+    nums_greater_than_right = [1] * len(ratings)
+    indices_from_left = range(1, len(ratings))
+    indices_from_right = range(len(ratings) - 2, -1, -1)
 
     for i in indices_from_left:
         if ratings[i] > ratings[i - 1]:
