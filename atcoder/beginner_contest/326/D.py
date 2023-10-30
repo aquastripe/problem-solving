@@ -25,7 +25,7 @@ def is_satisfied_exactly_one_abc_by_columns(grid, n_i, n):
     for j in range(n):
         abc_exists = set()
         for i in range(n_i + 1):
-            if grid[i][j] in ['A', 'B', 'C']:
+            if grid[i][j] in 'ABC':
                 if grid[i][j] not in abc_exists:
                     abc_exists.add(grid[i][j])
                 else:
