@@ -1,8 +1,6 @@
 def main():
     n, x = list(map(int, input().split()))
-    s = list(map(int, input().split()))
-    s = list(filter(lambda s_i: s_i <= x, s))
-    ans = sum(s)
+    ans = sum(filter(lambda s_i: s_i <= x, map(int, input().split())))
     print(ans)
 
 
