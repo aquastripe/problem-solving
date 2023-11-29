@@ -1,17 +1,24 @@
-def permutations(a, i, n):
+def permutations(nums, i, n, is_used):
     if i == n:
-        print(' '.join(map(str, a)))
+        print(' '.join(map(str, nums)))
         return
 
-    for j in range(i, n):
-        a[i], a[j] = a[j], a[i]
-        permutations(a, i + 1, n)
-        a[i], a[j] = a[j], a[i]
+    for target_num in range(1, n + 1):
+        if is_used[target_num]:
+            continue
+
+        is_used[target_num] = True
+        nums.append(target_num)
+        permutations(nums, i + 1, n, is_used)
+        is_used[target_num] = False
+        nums.pop()
 
 
 def main():
     n = 3
-    permutations(list(range(1, n + 1)), 0, n)
+    nums = []
+    is_used = [False] * (n + 1)
+    permutations(nums, 0, n, is_used)
 
 
 if __name__ == '__main__':
