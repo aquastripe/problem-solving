@@ -4,16 +4,24 @@ from typing import List
 class Solution:
     def permute(self, nums: List[int]) -> List[List[int]]:
         new_nums = []
+        indices = []
+        is_used = [False] * len(nums)
 
-        def _permute(nums, i, n):
-            if i == n:
-                new_nums.append(list(nums))
+        def dfs(i):
+            if i == len(nums):
+                new_nums.append([nums[j] for j in indices])
                 return
 
-            for j in range(i, n):
-                nums[i], nums[j] = nums[j], nums[i]
-                _permute(nums, i + 1, n)
-                nums[i], nums[j] = nums[j], nums[i]
+            for j in range(len(nums)):
+                if is_used[j]:
+                    continue
 
-        _permute(nums, 0, len(nums))
+                is_used[j] = True
+                indices.append(j)
+                dfs(i + 1)
+                is_used[j] = False
+                indices.pop()
+
+        dfs(0)
+
         return new_nums
