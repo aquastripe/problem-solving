@@ -51,17 +51,16 @@ def main():
         u, v = map(int, input().split())
         u, v = u - 1, v - 1
 
-        if a[u] > a[v]:
+        if a[u] < a[v]:
             edges_on_num[a[u]].append((u, v))
-        elif a[v] > a[u]:
+        elif a[v] < a[u]:
             edges_on_num[a[v]].append((v, u))
         else:
             dsu.unite(u, v)
 
     dp = [0] * n
-    dp[dsu.root(n - 1)] = 1
-    nums = list(edges_on_num.keys())
-    nums.sort(reverse=True)
+    dp[dsu.root(0)] = 1
+    nums = sorted(list(edges_on_num.keys()))
     for num in nums:
         edges = edges_on_num[num]
         for u, v in edges:
@@ -69,7 +68,7 @@ def main():
             if dp[u] > 0:
                 dp[v] = max(dp[v], dp[u] + 1)
 
-    print(dp[dsu.root(0)])
+    print(dp[dsu.root(n - 1)])
 
 
 if __name__ == '__main__':
