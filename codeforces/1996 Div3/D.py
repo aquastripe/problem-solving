@@ -1,52 +1,19 @@
-"""
-n x
-7 1000
-
-1 1 1
-1 1 2
-1 1 3
-1 2 1
-1 3 1
-2 1 1
-3 1 1
-
-
-1 1
-
-1 1
-1 2
-2 1
-
-1 1
-1 2
-1 3
-2 1
-3 1
-
-a * b + b * c + a * c <= n and a + b + c <= x
-
-bc + ac <= n - ab
-c <= (n-ab)/(a+b)
-c = (n-ab)//(a+b)
-
-c(1) = (n-a*1)//(a+1)
-c(2) = (n-a*2)//(a+2)
-"""
-
-
 def check(a, b, c, n, x):
     return a * b + b * c + a * c <= n and a + b + c <= x
 
 
 def solve(n, x):
     ans = 0
-    max_a = min((n - 1) // 2 + 1, x - 2)
-    for a in range(1, max_a + 1):
+    a = 1
+    while check(a, 1, 1, n, x):
         b = 1
         while check(a, b, 1, n, x):
-            c = min((n - a * b) // (a + b), x - a - b)
+            c_1 = (n - a * b) // (a + b)
+            c_2 = x - a - b
+            c = min(c_1, c_2)
             ans += c
             b += 1
+        a += 1
 
     return ans
 
