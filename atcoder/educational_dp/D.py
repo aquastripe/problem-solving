@@ -1,22 +1,34 @@
-def main():
-    N, W = map(int, input().split())
-    w, v = [], []
-    for _ in range(N):
-        w_i, v_i = map(int, input().split())
-        w.append(w_i)
-        v.append(v_i)
+"""
+State definition:
+  dp[i][j]: the maximum value achievable by considering the first items with a total weight not exceeding j.
 
-    dp = [[0] * (W + 1) for _ in range(N)]
-    # dp[N][W] = max(dp[N-1][W], dp[N-1][W-w[i]] + v[i])
-    for i in range(N):
-        for curr_w in range(W + 1):
-            if curr_w - w[i] >= 0:
-                dp[i][curr_w] = max(dp[i - 1][curr_w], dp[i - 1][curr_w - w[i]] + v[i])
-            else:
-                dp[i][curr_w] = dp[i - 1][curr_w]
+Initialization:
+  dp[0][j] = 0 for all j  # no items are taken, so the total value is 0 regardless of the weight limit.
 
-    print(dp[N - 1][W])
+State transition:
+  for each item i from 1 to N
+    dp[i][j] = max(dp[i-1][j],           # skip item i
+                   dp[i-1][j-w_i] + v_i) # take item i (if the weight allows)
 
+Final answer:
+  dp[N][W]
+"""
 
-if __name__ == '__main__':
-    main()
+N, W = map(int, input().split())
+items = []
+
+for _ in range(N):
+  w, v = map(int, input().split())
+  items.append((w, v))
+
+dp = [[0] * (W+1) for _ in range(N+1)]
+
+for i in range(1, N+1):
+  for j in range(1, W+1):
+    w, v = items[i-1]
+    if j-w >= 0:
+      dp[i][j] = max(dp[i-1][j], dp[i-1][j-w] + v)
+    else:
+      dp[i][j] = dp[i-1][j]
+
+print(dp[N][W])
